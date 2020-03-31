@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ScoreBoard</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="search_instructions">Type your team and click search to find your team</string>
+    <string name="search_hint">Type a team name</string>
+    <string name="search">Search</string>
+    <string name="details">Details</string>
+    <string name="welcome_to_scoreboard">Welcome to ScoreBoard</string>
+    <string name="home">Home</string>
+    <string name="upcoming_games">Upcoming Games</string>
+    <string name="past_games">Past Games</string>
+    <string name="current_and_past_games">Current and Past Games</string>
+    <string name="could_not_find_the_team_please_try_different_team">Could not find the team. Please try different team</string>
+    <string name="could_not_load_the_search_please_try_again_or_visit_latter">Could not load the search. Please try again or visit latter.</string>
+    <string name="history_na">Game History Unavailable</string>
+    <string name="schedule_na">Schedule Unavailable</string>
+    <string name="please_set_search">Please set search a Team tapping SEARCH tab to get details of a team you like</string>
+</resources>
