@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.example.scoreboard.R;
 import com.example.scoreboard.ui.MainActivity;
+import com.example.scoreboard.utility.HideSoftKeyUtility;
 import com.example.scoreboard.viewModel.ScoreDetailsViewModel;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class SearchFragment extends Fragment {
     private EditText searchTeam;
@@ -25,6 +27,7 @@ public class SearchFragment extends Fragment {
     private boolean isSearchClicked = false;
     private TextView seachTeamErro;
     private TextView seachNetworkErro;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     public SearchFragment() {
@@ -87,7 +90,9 @@ public class SearchFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HideSoftKeyUtility.hideSoftKeyboard(getActivity());
                 String teamForSearch = searchTeam.getText().toString().trim();
+                searchTeam.setText("");
                 if (teamForSearch.length() > 0) {
                     scoreDetailsViewModel.setErrorMeassageVisibilty(2);
                     isSearchClicked = true;
@@ -95,12 +100,17 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         return view;
     }
 
 
     public void searchTeam(String team) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("Event", team);
+        mFirebaseAnalytics.logEvent("action", bundle);
         scoreDetailsViewModel.getTeamDetails(team, this.getActivity());
     }
 

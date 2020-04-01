@@ -3,13 +3,20 @@ package com.example.scoreboard.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.example.scoreboard.R;
 import com.example.scoreboard.ui.adapters.TabAdapter;
 import com.example.scoreboard.ui.fragments.GameDetailsFragment;
 import com.example.scoreboard.ui.fragments.SearchFragment;
+import com.example.scoreboard.utility.HideSoftKeyUtility;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager, false);
         tabLayout.setupWithViewPager(viewPager);
+        setupSoftKeyBoard(viewPager);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -64,4 +72,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public void setupSoftKeyBoard(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    HideSoftKeyUtility.hideSoftKeyboard(MainActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupSoftKeyBoard(innerView);
+            }
+        }
+    }
+
+
 }

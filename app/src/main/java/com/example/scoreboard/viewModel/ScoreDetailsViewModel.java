@@ -37,7 +37,7 @@ public class ScoreDetailsViewModel extends ViewModel {
             @Override
             public void onNext(TeamDetail responseData) {
                 //TODO
-                if (responseData != null && responseData.getTeams() != null) {
+                if (responseData != null && responseData.getTeams() != null && responseData.getTeams().get(0).getStrTeamLogo() != null) {
                     teamDetail.setValue(null);
                     teamHistory.setValue(null);
                     teamSchedule.setValue(null);
