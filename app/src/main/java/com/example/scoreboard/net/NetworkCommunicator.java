@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkCommunicator {
 
-    String trackTeamBaseUrl = "https://www.thesportsdb.com/api/v1/json/1/";
+    String trackTeamBaseUrl = "https://www.thesportsdb.com/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(trackTeamBaseUrl)
@@ -75,6 +75,25 @@ public class NetworkCommunicator {
 
             @Override
             public void onFailure(Call<RecentGames> call, Throwable t) {
+                subscriber.onError(t);
+
+            }
+        });
+    }
+
+    public void getTeam(String id, final Subscriber<TeamDetail> subscriber) {
+
+        TrackScoreApiServicesInterface trackScoreApiServicesInterface = retrofit.create(TrackScoreApiServicesInterface.class);
+        Call<TeamDetail> userTeam = trackScoreApiServicesInterface.searchTeam(id);
+        userTeam.enqueue(new Callback<TeamDetail>() {
+            @Override
+            public void onResponse(Call<TeamDetail> call, Response<TeamDetail> response) {
+                subscriber.onNext(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<TeamDetail> call, Throwable t) {
                 subscriber.onError(t);
 
             }

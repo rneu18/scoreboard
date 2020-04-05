@@ -41,6 +41,10 @@ public class GameDetailsFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private TextView pastGamesTitle;
     private TextView upComingTitle;
+    private TextView teamCountry;
+    private TextView teamLeague;
+    private TextView teamGame;
+    private TextView teamName;
     private Boolean openedFirst = true;
     private TextView searchMsg;
     private ConstraintLayout detailHolder;
@@ -64,6 +68,10 @@ public class GameDetailsFragment extends Fragment {
         upComingGamesRecyclerView = view.findViewById(R.id.upcoming_game_rv);
         teamLogo = view.findViewById(R.id.team_logo);
         pastGamesTitle = view.findViewById(R.id.past_game_title);
+        teamName = view.findViewById(R.id.team_name);
+        teamCountry = view.findViewById(R.id.set_country);
+        teamLeague = view.findViewById(R.id.set_league);
+        teamGame = view.findViewById(R.id.set_game);
         upComingTitle = view.findViewById(R.id.upcoming_game_title);
         searchMsg = view.findViewById(R.id.ask_search);
         detailHolder = view.findViewById(R.id.details_holder);
@@ -86,17 +94,18 @@ public class GameDetailsFragment extends Fragment {
             }
         });
 
-        scoreDetailsViewModel.getTeamDetail().observe(this, new Observer<TeamDetail>() {
+        scoreDetailsViewModel.getTeamDetail().observe(this, new Observer<TeamDetail.Team>() {
 
             @Override
-            public void onChanged(TeamDetail teamDetail) {
+            public void onChanged(TeamDetail.Team teamDetail) {
                 populateHomeFragmentUi(teamDetail);
             }
         });
         String savedTeamName = SharedPeferencesUtility.getSavedTeam(Objects.requireNonNull(this.getActivity()));
+        int savedTeamIndex = SharedPeferencesUtility.getSavedIndex(getActivity());
         if (savedTeamName != null && openedFirst) {
             openedFirst = false;
-            scoreDetailsViewModel.getTeamDetails(savedTeamName, this.getActivity());
+            scoreDetailsViewModel.getTeam(savedTeamName, savedTeamIndex);
         }
         if (savedTeamName == null) {
             searchMsg.setVisibility(View.VISIBLE);
@@ -107,18 +116,53 @@ public class GameDetailsFragment extends Fragment {
             }
         }
 
+        pastGamesTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pastGamesTitle.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                upComingTitle.setBackgroundColor(getResources().getColor(R.color.cardview_dark_background));
+                pastGamesRecyclerView.setVisibility(View.VISIBLE);
+                upComingGamesRecyclerView.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        upComingTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pastGamesTitle.setBackgroundColor(getResources().getColor(R.color.cardview_dark_background));
+                upComingTitle.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                pastGamesRecyclerView.setVisibility(View.GONE);
+                upComingGamesRecyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+
         return view;
     }
 
-    private  void populateHomeFragmentUi(TeamDetail teamDetail) {
-        if (teamDetail != null && teamDetail.getTeams() != null && teamDetail.getTeams().get(0).getStrTeamLogo() !=null) {
-            String imageUrl = teamDetail.getTeams().get(0).getStrTeamLogo();
+    private  void populateHomeFragmentUi(TeamDetail.Team teamDetail) {
+        if (teamDetail != null && teamDetail.getStrTeamLogo() !=null) {
+            String imageUrl = teamDetail.getStrTeamLogo();
             Picasso.get().load(imageUrl).into(teamLogo);
+            teamLogo.setVisibility(View.VISIBLE);
+        } else {
+            teamLogo.setVisibility(View.GONE);
         }
-        if (teamDetail != null && teamDetail.getTeams() != null) {
-            searchMsg.setVisibility(View.GONE);
-            detailHolder.setVisibility(View.VISIBLE);
+        if (teamDetail != null) {
+            teamName.setText(teamDetail.getStrTeam());
+            teamLeague.setText(teamDetail.getStrLeague());
+            teamCountry.setText(teamDetail.getStrCountry());
+            teamGame.setText(teamDetail.getStrSport());
+            String teamID = teamDetail.getIdTeam();
+            scoreDetailsViewModel.getRecentGames(teamID);
+            scoreDetailsViewModel.getTeamSchedule(teamID);
         }
+
+        searchMsg.setVisibility(View.GONE);
+        detailHolder.setVisibility(View.VISIBLE);
 
 
     }

@@ -48,10 +48,10 @@ public class HomeFragment extends Fragment {
         savedTeamName = SharedPeferencesUtility.getSavedTeam(Objects.requireNonNull(this.getActivity()));
         teamLogo = view.findViewById(R.id.team_logo);
         scoreDetailsViewModel = ViewModelProviders.of(getActivity()).get(ScoreDetailsViewModel.class);
-        scoreDetailsViewModel.getTeamDetail().observe(this, new Observer<TeamDetail>() {
+        scoreDetailsViewModel.getTeamDetail().observe(this, new Observer<TeamDetail.Team>() {
 
             @Override
-            public void onChanged(TeamDetail teamDetail) {
+            public void onChanged(TeamDetail.Team teamDetail) {
                populateHomeFragmentUi(teamDetail);
             }
         });
@@ -62,9 +62,9 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private  void populateHomeFragmentUi(TeamDetail teamDetail) {
-        if (teamDetail != null && teamDetail.getTeams() != null && teamDetail.getTeams().get(0).getStrTeamLogo() !=null) {
-            String imageUrl = teamDetail.getTeams().get(0).getStrTeamLogo();
+    private  void populateHomeFragmentUi(TeamDetail.Team teamDetail) {
+        if (teamDetail != null && teamDetail.getStrTeamLogo() !=null) {
+            String imageUrl = teamDetail.getStrTeamLogo();
             Picasso.get().load(imageUrl).into(teamLogo);
         }
 

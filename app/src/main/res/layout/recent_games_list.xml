@@ -88,8 +88,7 @@
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:text="Team 2"
-                    app:layout_constraintStart_toStartOf="@id/team1"
-                    app:layout_constraintEnd_toEndOf="@id/team1"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/vs"/>
 
                 <TextView

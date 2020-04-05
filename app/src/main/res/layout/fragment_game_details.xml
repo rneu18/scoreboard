@@ -25,17 +25,31 @@
                 android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/team_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="20sp"
+                tools:text="Arsenal"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text1"/>
 
             <ImageView
                 android:id="@+id/team_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxHeight="60dp"
-                android:maxWidth="200dp"
+                android:padding="10dp"
+                android:background="@android:color/holo_orange_light"
+                android:maxHeight="80dp"
+                android:maxWidth="250dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text1"
+                app:layout_constraintTop_toBottomOf="@id/team_name"
                 android:visibility="visible"/>
 
             <TextView
@@ -58,6 +72,76 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                >
+                <TextView
+                    android:id="@+id/country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/country"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                   />
+                <TextView
+                    android:id="@+id/set_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="20dp"
+                    tools:text="Nepal"
+                    app:layout_constraintStart_toEndOf="@id/country"
+                    app:layout_constraintTop_toTopOf="parent"
+                   />
+                <TextView
+                    android:id="@+id/league"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/league"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/country"
+                    />
+                <TextView
+                    android:id="@+id/set_league"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    tools:text="Division A"
+                    app:layout_constraintStart_toEndOf="@id/league"
+                    app:layout_constraintTop_toBottomOf="@id/country"
+                    />
+                <TextView
+                    android:id="@+id/game"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/game"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/league"
+                    />
+                <TextView
+                    android:id="@+id/set_game"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    tools:text="Cricket"
+                    app:layout_constraintStart_toEndOf="@id/game"
+                    app:layout_constraintTop_toBottomOf="@id/league"
+                    />
 
                 <TextView
                     android:id="@+id/fixtures_txt"
@@ -69,11 +153,12 @@
                     android:textStyle="bold"
                     android:text="@string/current_and_past_games"
                     android:gravity="center"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/game"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <LinearLayout
+                    android:id="@+id/linearLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -82,54 +167,56 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fixtures_txt"
+                    android:background="@color/cardview_dark_background"
                     android:orientation="horizontal">
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/past_game_title"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1">
-                        <TextView
-                            android:id="@+id/past_game_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/holo_blue_light"
-                            android:textSize="16sp"
-                            android:text="@string/past_games"
-                            />
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/past_game_rv"
-                            android:layout_marginTop="5dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:textSize="16sp"
+                        android:text="@string/past_games"
+                        android:background="@color/colorAccent"
+                        android:layout_weight="0.5"
+                        />
+                    <TextView
+                        android:id="@+id/upcoming_game_title"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1">
-                        <TextView
-                            android:id="@+id/upcoming_game_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/holo_blue_light"
-                            android:textSize="16sp"
-                            android:text="@string/upcoming_games"
-                            />
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/upcoming_game_rv"
-                            android:layout_marginTop="5dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-
-                    </LinearLayout>
-
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:textSize="16sp"
+                        android:text="@string/upcoming_games"
+                        android:layout_weight="0.5"
+                        />
 
                 </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/past_game_rv"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout1"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/upcoming_game_rv"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout1"
+                    android:visibility="gone"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

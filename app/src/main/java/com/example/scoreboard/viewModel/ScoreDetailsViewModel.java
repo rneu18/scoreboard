@@ -17,7 +17,8 @@ import org.reactivestreams.Subscription;
 public class ScoreDetailsViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> switchTOHomeFragment = new MutableLiveData<>();
-    private final MutableLiveData<TeamDetail> teamDetail = new MutableLiveData<>();
+    private final MutableLiveData<TeamDetail.Team> teamDetail = new MutableLiveData<>();
+    private final MutableLiveData<TeamDetail> teamList = new MutableLiveData<>();
     private final MutableLiveData<TeamSchedule> teamSchedule = new MutableLiveData<>();
     private final MutableLiveData<RecentGames> teamHistory = new MutableLiveData<>();
     private final MutableLiveData<Integer> errorMeassageVisibilty = new MutableLiveData<>();
@@ -37,16 +38,9 @@ public class ScoreDetailsViewModel extends ViewModel {
             @Override
             public void onNext(TeamDetail responseData) {
                 //TODO
-                if (responseData != null && responseData.getTeams() != null && responseData.getTeams().get(0).getStrTeamLogo() != null) {
-                    teamDetail.setValue(null);
-                    teamHistory.setValue(null);
-                    teamSchedule.setValue(null);
-                    teamDetail.setValue(responseData);
-                    String teamID = responseData.getTeams().get(0).getIdTeam();
-                    switchTOHomeFragment.setValue(true);
-                    SharedPeferencesUtility.setSavedTeam(responseData.getTeams().get(0).getStrTeam(), context);
-                    getRecentGames(teamID);
-                    getTeamSchedule(teamID);
+                if (responseData != null && responseData.getTeams() != null) {
+                    setTeamToNull();
+                    teamList.setValue(responseData);
                     errorMeassageVisibilty.setValue(2);
 
                 } else {
@@ -70,7 +64,38 @@ public class ScoreDetailsViewModel extends ViewModel {
         });
     }
 
-    private void getRecentGames(final String id) {
+    public void getTeam(final String teamName, final int savedIndex) {
+
+        networkCommunicator.getTeam(teamName, new Subscriber<TeamDetail>() {
+
+            @Override
+            public void onSubscribe(Subscription s) {
+
+            }
+
+            @Override
+            public void onNext(TeamDetail responseData) {
+                //TODO
+                if (responseData != null && responseData.getTeams() != null) {
+                    setTeamToNull();
+                    teamDetail.setValue(responseData.getTeams().get(savedIndex));
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                //TODO
+
+            }
+        });
+    }
+
+    public void getRecentGames(final String id) {
         networkCommunicator.getTeamHistory(id, new Subscriber<RecentGames>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -100,7 +125,7 @@ public class ScoreDetailsViewModel extends ViewModel {
         });
     }
 
-    private void getTeamSchedule(final String id) {
+    public void getTeamSchedule(final String id) {
         networkCommunicator.getTeamSchedule(id, new Subscriber<TeamSchedule>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -130,8 +155,15 @@ public class ScoreDetailsViewModel extends ViewModel {
         });
     }
 
-    public MutableLiveData<TeamDetail> getTeamDetail() {
+    public MutableLiveData<TeamDetail.Team> getTeamDetail() {
         return teamDetail;
+    }
+    public MutableLiveData<TeamDetail> getTeamList() {
+        return teamList;
+    }
+
+    public void setTeamToNull() {
+        teamList.setValue(null);
     }
     public MutableLiveData<TeamSchedule> getTeamSchedule() {
         return teamSchedule;
@@ -152,6 +184,16 @@ public class ScoreDetailsViewModel extends ViewModel {
 
     public void setErrorMeassageVisibilty(int code) {
         errorMeassageVisibilty.setValue(code);
+    }
+
+    public void setTeam(int position,Context context) {
+        teamHistory.setValue(null);
+        teamSchedule.setValue(null);
+        teamDetail.setValue(null);
+        switchTOHomeFragment.setValue(true);
+        teamDetail.setValue(teamList.getValue().getTeams().get(position));
+        //SharedPeferencesUtility.setSavedTeam(teamList.getTeams().get(0).getStrTeam(), context);
+        SharedPeferencesUtility.setSavedTeam(teamList.getValue().getTeams().get(position).getStrTeam(), context);
     }
 
 }

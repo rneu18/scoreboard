@@ -16,4 +16,7 @@
     <string name="history_na">Game History Unavailable</string>
     <string name="schedule_na">Schedule Unavailable</string>
     <string name="please_set_search">Please set search a Team tapping SEARCH tab to get details of a team you like</string>
+    <string name="country">Country:</string>
+    <string name="league">League:</string>
+    <string name="game">Game:</string>
 </resources>

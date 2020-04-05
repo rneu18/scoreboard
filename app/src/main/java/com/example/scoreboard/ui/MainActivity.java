@@ -1,6 +1,7 @@
 package com.example.scoreboard.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
@@ -17,12 +18,14 @@ import com.example.scoreboard.ui.adapters.TabAdapter;
 import com.example.scoreboard.ui.fragments.GameDetailsFragment;
 import com.example.scoreboard.ui.fragments.SearchFragment;
 import com.example.scoreboard.utility.HideSoftKeyUtility;
+import com.example.scoreboard.viewModel.ScoreDetailsViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
     private TabAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ScoreDetailsViewModel scoreDetailsViewModel;
 
     public int[] icons= {
             R.drawable.ic_home_blue_24dp,
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager, false);
         tabLayout.setupWithViewPager(viewPager);
         setupSoftKeyBoard(viewPager);
+        scoreDetailsViewModel = ViewModelProviders.of(this).get(ScoreDetailsViewModel.class);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -51,6 +55,27 @@ public class MainActivity extends AppCompatActivity {
         for (int iconsLoad = 0; iconsLoad < tabLayout.getTabCount(); iconsLoad++) {
             tabLayout.getTabAt(iconsLoad).setIcon(icons[iconsLoad]);
         }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getText().equals("Search")) {
+                    //TODO
+                    scoreDetailsViewModel.setTeamToNull();
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
